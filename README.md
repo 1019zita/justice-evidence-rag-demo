@@ -50,3 +50,37 @@ Hash audit:
 - Coverage counts, time range, covered sources, and known gaps are marked field-by-field as `simulated` in `AnalysisResult.retrievalCoverage.provenance`. Coverage UI displays `演示数据` and a disclaimer.
 
 The mock provider does not perform a network request. No new legal source or URL is invented. It can be replaced by an HTTP implementation without changing UI components.
+
+## Curated three-case showcase
+
+The home page exposes three static, audited sample workspaces:
+
+- `CASE-01` 高校学籍与证书管理 — 教育行政 / 行政诉讼
+- `CASE-02` 彩礼返还 — 婚姻家庭 / 民事争议
+- `CASE-03` 正当防卫 — 刑事法律 / 正当防卫
+
+Each sample is marked `审核样板 · 预置展示数据 · 非实时检索`. The independent adapter is `src/demo/demoCases.ts`; it uses only the existing HG2-0005 facts and audited key sentences. It does not alter `AnalysisResult`, `EvidenceItem`, `MockAnalysisService`, or the HTTP API contract.
+
+## Local modes
+
+Default local development keeps the live HTTP path:
+
+```bash
+npm run dev
+```
+
+Static demo mode:
+
+```bash
+VITE_ANALYSIS_MODE=mock VITE_DEMO_MODE=true npm run dev
+```
+
+In static mode, the input page explicitly states that submissions use the local mock provider. The public site does not request `127.0.0.1` or any external backend.
+
+## Public showcase
+
+- Repository: https://github.com/1019zita/justice-evidence-rag-demo
+- GitHub Pages: https://1019zita.github.io/justice-evidence-rag-demo/
+- Workflow: `.github/workflows/deploy-pages.yml`
+
+The Pages build sets `VITE_ANALYSIS_MODE=mock` and `VITE_DEMO_MODE=true`. `vite.config.ts` applies the repository base path only in GitHub Actions; local development remains rooted at `/`.
