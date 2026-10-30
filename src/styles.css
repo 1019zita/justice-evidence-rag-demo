@@ -73,7 +73,7 @@ button:disabled { cursor: not-allowed; opacity: .52; }
 .section-heading h2 { margin: 9px 0 0; font-size: var(--font-h2); letter-spacing: -.03em; }
 .demo-note { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); font-size: var(--font-meta); }
 .entry-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.entry-card { position: relative; min-height: 245px; padding: 22px 24px 20px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.76); text-align: left; cursor: pointer; box-shadow: 0 4px 15px rgba(28, 54, 80, .02); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.entry-card { position: relative; display: flex; flex-direction: column; min-height: 245px; padding: 22px 24px 20px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.76); text-align: left; cursor: pointer; box-shadow: 0 4px 15px rgba(28, 54, 80, .02); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; overflow: hidden; }
 .entry-card:hover { transform: translateY(-3px); border-color: #a9bfd6; box-shadow: var(--shadow); }
 .entry-card-primary { background: linear-gradient(120deg, rgba(240,247,254,.88), rgba(255,255,255,.86)); }
 .entry-card-secondary { background: rgba(253,252,249,.88); }
@@ -85,7 +85,7 @@ button:disabled { cursor: not-allowed; opacity: .52; }
 .viewpoint-icon { color: #a27b3b; }
 .entry-card h3 { margin: 14px 0 8px; font-size: 22px; letter-spacing: -.04em; }
 .entry-card p { max-width: 500px; margin: 0; color: var(--muted); font-size: var(--font-body); line-height: var(--line-body); }
-.entry-action { position: absolute; bottom: 20px; display: inline-flex; gap: 11px; color: var(--blue-dark); font-size: 15px; font-weight: 800; }
+.entry-action { position: static; display: inline-flex; gap: 11px; margin-top: auto; padding-top: 18px; color: var(--blue-dark); font-size: 15px; font-weight: 800; }
 .entry-card-secondary .entry-action { color: #80632e; }
 .entry-action span { font-size: 17px; line-height: .8; }
 .demo-header-meta { color: #896d35; }
@@ -144,6 +144,7 @@ button:disabled { cursor: not-allowed; opacity: .52; }
 .privacy-note span { color: var(--blue); margin-right: 5px; }
 .primary-button, .send-button { border: 0; border-radius: 8px; background: var(--blue-dark); color: white; cursor: pointer; font-weight: 700; }
 .primary-button { padding: 12px 17px; font-size: 15px; }
+.form-bottom .primary-button { margin-left: auto; }
 .primary-button span, .send-button span { margin-left: 10px; font-size: 16px; }
 
 /* Pipeline */

@@ -15,6 +15,11 @@ const analysisService: AnalysisService = import.meta.env.VITE_ANALYSIS_MODE === 
   ? new MockAnalysisService()
   : new HttpAnalysisService();
 const demoMode = import.meta.env.VITE_DEMO_MODE === "true";
+const MIN_PIPELINE_DISPLAY_MS = 2400;
+
+function wait(milliseconds: number): Promise<void> {
+  return new Promise(resolve => window.setTimeout(resolve, milliseconds));
+}
 
 export function App() {
   const [screen, setScreen] = useState<Screen>("home");
@@ -33,8 +38,13 @@ export function App() {
     setPipelineStep(0);
     setScreen("pipeline");
     const method = mode === "case-analysis" ? "analyzeCase" : "checkViewpoint";
-    const progressTimer = window.setInterval(() => setPipelineStep(step => Math.min(step + 1, 7)), 700);
-    analysisService[method](input).then(nextResult => {
+    const startedAt = performance.now();
+    const progressTimer = window.setInterval(() => setPipelineStep(step => Math.min(step + 1, 7)), 350);
+    analysisService[method](input).then(async nextResult => {
+      if (demoMode) {
+        const remaining = MIN_PIPELINE_DISPLAY_MS - (performance.now() - startedAt);
+        if (remaining > 0) await wait(remaining);
+      }
       window.clearInterval(progressTimer);
       setPipelineStep(7);
       setResult(nextResult);
@@ -47,6 +57,6 @@ export function App() {
   function resetToHome() { setResult(null); setScreen("home"); }
   if (screen === "input") return <AnalysisInputPage demoMode={demoMode} mode={mode} onBack={resetToHome} onSubmit={startAnalysis} />;
   if (screen === "home") return <HomePage demoMode={demoMode} onSelectMode={openInput} onSelectDemo={openDemo} />;
-  if (screen === "pipeline") return <AnalysisPipeline activeStep={pipelineStep} error={pipelineError} />;
-  return result ? <AnalysisWorkspacePage result={result} onNewAnalysis={resetToHome} /> : <AnalysisPipeline activeStep={pipelineStep} error="分析结果为空，请返回重新提交。" />;
+  if (screen === "pipeline") return <AnalysisPipeline activeStep={pipelineStep} demoMode={demoMode} error={pipelineError} />;
+  return result ? <AnalysisWorkspacePage result={result} onNewAnalysis={resetToHome} /> : <AnalysisPipeline activeStep={pipelineStep} demoMode={demoMode} error="分析结果为空，请返回重新提交。" />;
 }

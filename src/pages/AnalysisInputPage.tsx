@@ -40,7 +40,7 @@ export function AnalysisInputPage({ demoMode, mode, onBack, onSubmit }: Analysis
   }
 
   const canSubmit = facts.trim().length > 20 && (mode === "case-analysis" || viewpoint.trim().length > 5);
-  const modeNotice = demoMode ? "静态展示模式：提交使用预置 mock，不请求外部后端。" : "实时模式：材料将发送到本地分析 API，不会静默回退到 mock。";
+  const modeNotice = "实时模式：材料将发送到本地分析 API，不会静默回退到 mock。";
 
   return (
     <div className="input-page">
@@ -70,7 +70,7 @@ export function AnalysisInputPage({ demoMode, mode, onBack, onSubmit }: Analysis
             </>}
             <label className="field-label" htmlFor="question">希望重点核查的问题 <span>可选</span></label>
             <textarea id="question" value={question} onChange={(event) => setQuestion(event.target.value)} placeholder="例如：重点核查处分程序是否合法" rows={3} />
-            <div className="form-bottom"><span className="privacy-note"><span>◌</span> {modeNotice}</span><button className="primary-button" type="submit" disabled={!canSubmit}>开始分析 <span>→</span></button></div>
+            <div className="form-bottom">{!demoMode && <span className="privacy-note"><span>◌</span> {modeNotice}</span>}<button className="primary-button" type="submit" disabled={!canSubmit}>开始分析 <span>→</span></button></div>
           </form>
         </div>
       </main>
